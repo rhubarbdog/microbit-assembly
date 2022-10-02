@@ -10,12 +10,13 @@ def asm_read_digital(r0):
     add(r1, 0x10)       # r1=0x50000510 -- this points to GPIO read digital
                         # registers 
     ldr(r2, [r1, 0])    # move memory@r1 to r2
-
+    
     mov(r3, 0x01)       # make a bit mask in r3
     lsl(r3, r0)         # shift mask  left r0 bits
     and_(r2, r3)        # this value will be someting like 0x0400 or 0x00
     lsr(r2, r0)         # shift result right r0 bits
     mov(r0, r2)         # and return it 
+ 
     
 def read_digital(pin):
     # this is a dictionary, microbit.pinX can't be a __hash__
@@ -58,6 +59,10 @@ def read_digital(pin):
 
     return asm_read_digital(bit_shift)
 
+
+
+
+
 display.off()
 print("")
 for p in range(17):
@@ -66,13 +71,13 @@ for p in range(17):
         # a dummy read_digital / this set_pull configures the pin as
         # read digital
         pin.set_pull(pin.PULL_DOWN)
-        print('pin{}\t'.format(p),end = ' ')
-        print(read_digital(pin))
+        #print('pin{}\t'.format(p),end = ' ')
+        #print(read_digital(pin))
 
 for p in (5, 11):
     pin = eval('pin{}'.format(p))
     # a dummy read_digital / this set_pull configures the pin as
     # read digital
     pin.set_pull(pin.PULL_UP)
-    print('pin{}\t'.format(p),end = ' ')
-    print(read_digital(pin))
+    #print('pin{}\t'.format(p),end = ' ')
+    #print(read_digital(pin))
